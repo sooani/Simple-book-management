@@ -1,0 +1,52 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0' // Spring Boot 플러그인
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE' // 의존성 관리 플러그인
+	id 'java' // Java 플러그인
+}
+
+version = '0.0.1-SNAPSHOT' // 프로젝트 버전
+sourceCompatibility = "10" // 소스 호환성 설정
+
+javadoc.options.encoding = 'UTF-8' // Javadoc 인코딩 설정
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8' // Java 컴파일 옵션에서 인코딩 설정
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor // 컴파일 시점에만 필요한 의존성 설정
+	}
+}
+
+repositories {
+	mavenCentral() // Maven 중앙 저장소 사용
+}
+
+dependencies {
+	// Spring Boot 및 기타 의존성들
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
+	implementation 'javax.servlet:jstl:1.2'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+}
+
+tasks.named('javadoc') {
+	source = sourceSets.main.allJava // Javadoc 소스 설정
+	options.memberLevel = JavadocMemberLevel.PRIVATE // Javadoc 멤버 레벨 설정
+	destinationDir = file("build/docs/javadoc") // Javadoc 출력 디렉토리 설정
+}
+
+test {
+	useJUnitPlatform() // JUnit 5 사용 설정
+}
+
+//targetCompatibility = JavaVersion.VERSION_10 // 대상 호환성 설정
